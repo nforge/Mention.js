@@ -6,6 +6,8 @@ Lightweight (min: ~1.92kb, full: ~4.07kb) wrapper for adding mention auto-comple
 
 This enables you to have Twitter-like `@` user mentions, `#` hashtag in textareas and more.
 
+<b>View the demo <a href="http://bijanebrahimi.github.io/Mention.js/" target="_blank">here</a>.</b>
+
 ## Dependencies
 * <a href="https://github.com/jquery/jquery" target="_blank">jQuery</a>
 * <a href="https://github.com/twitter/bootstrap" target="_blank">Typeahead</a>
