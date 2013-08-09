@@ -2,9 +2,9 @@
 
 <img src="http://i.imgur.com/pCvqL.png">
 
-Lightweight (min: 1.92kb, full: 4.07kb) wrapper for adding @user mention functionality to Twitter Bootstraps Typeahead plugin.
+Lightweight (min: ~1.92kb, full: ~4.07kb) wrapper for adding mention auto-completion functionality to Twitter Bootstraps Typeahead plugin.
 
-This enables you to have Twitter-like user mentions in textareas
+This enables you to have Twitter-like user mentions in textareas and more.
 
 <b>View the demo <a href="http://jakiestfu.github.com/Mention.js/" target="_blank">here</a>.</b>
 
@@ -13,7 +13,7 @@ This enables you to have Twitter-like user mentions in textareas
 * <a href="https://github.com/twitter/bootstrap" target="_blank">Typeahead</a>
 
 ## Usage
-The `users` parameter accepts an array of objects. Each object ***must*** have a username key in order for this script to work.
+The `users` parameter accepts an array of objects. **key** value should be defined which is equal to object variable we want to mention.
 
 `````javascript
 $("#multi-users").mention({
@@ -31,6 +31,7 @@ $("#multi-users").mention({
 ## Sensitivity
 `````javascript
 $("#multi-users").mention({
+    key: 'username',
     sensitive: true,
     users: [{
         username: "sarah"
@@ -49,17 +50,50 @@ With sensitivity set to true, items are ordered by the following divisions of pr
 * Med: If target has matching letters' case
 * Low: if target has matching character regardless of case
 
+### Overriding the delimiter:
+You can override the delimitter for each item by defining `delimiter` object value. for instance to have *developer* and *developing* hashtag we can simple define extra delimiter value in each of them and set them to '#':
+
+`````javascript
+$("#multi-users").mention({
+    name: 'name',
+    key: 'username',
+    queryBy: ['name', 'username'],
+    users: [{
+        username: "sarah",
+        name: "Sarah Jones",
+        image: "http://placekitten.com/25/25"
+    }, { 
+        username: "bigCat",
+        name: "Scott Pfaff",
+        image: "http://placekitten.com/25/25"
+    }, { 
+        username: "developer",
+        name: "Developer",
+        image: "",
+        delimiter: "#"
+    }, { 
+        username: "developing",
+        name: "Developing",
+        image: "",
+        delimiter: "#"
+    }]
+});
+`````
+
+
 ### Sensitivity Examples:
 If you were to query `"@r"`, with sensitivity on, the resulting list will be `["roger", "Ricky", "sarah", "bigRat"]`, but if you were to query `"@R"`, the resulting list would be `["Ricky", "roger", "bigRat", "sarah"]`
 
 
 ## Full Names, Images, and Query By
-If you have a `name` and/or `image` key in one of your user objects, there name and image will appear as such in the dropdown list.
+If you have `name` and/or `image` in one of your user objects, there name and image will appear as such in the dropdown list.
 
 The `queryBy` parameter accepts an array of strings that represent keys in your user object that you would like to query against. For example, if you were to type in the `name` "@Scott", the script would match the `username` "@bigCat". `username` is required for this script to work.
 
 `````javascript
 $("#multi-users").mention({
+    name: 'name',
+    key: 'username',
     queryBy: ['name', 'username'],
     users: [{
         username: "sarah",
@@ -93,6 +127,9 @@ $('#multi-users').mention({
 ## Defaults
 `````javascript
 $("#multi-users").mention({
+    key: 'username',
+    name: 'name',
+    image: 'image',
     users: [], // Array of Objects
     delimiter: '@', // Username Delimiter
     sensitive : true,
@@ -111,6 +148,7 @@ $("#multi-users").mention({
 (The MIT license)
 
 Copyright (c) 2013 Jacob Kelley
+Copyright (c) 2013 Bijan Ebrahimi (overriding delimiter and optional key/name object variable name)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

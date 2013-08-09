@@ -49,12 +49,12 @@
 	</style>
 </head>
 <body>
-	<p>Type in some text below as if you were sending a "tweet". Be sure to try to "mention" someone by typing the @ symbol, then some text</p>
+	<p>Type in some text below as if you were sending a "tweet" or a "notice". Be sure to try to "mention" someone by typing the @ symbol or "hashtag" something by # symbol or target a "group" by ! symbol (in statusnet micro-blogging service), then some text</p>
 
 	<hr />
 
 	<h3>Example #1: Name, Username, &amp; Image</h3>
-	<p>In this example, a full name, image, and username is shown in the resulting list. You can query by username OR full name (try typing @Jenna)</p>
+	<p>In this example, a full name, image, and username is shown in the resulting list. You can query by username OR full name (try typing @Jenna, #plugin or !humor)</p>
 	<textarea id="full"></textarea>
 
 	<h3>Example #2: Name, Username</h3>
@@ -72,6 +72,12 @@
 		$(document).ready(function(){
 			
 			$("#full").mention({
+                key: 'username',
+                name: 'name',
+                image: 'image',
+                delimiter: '@',
+                emptyQuery: true,
+                queryBy: ['name', 'username'],
 				users: [{
 					name: 'Lindsay Made',
 					username: 'LindsayM',
@@ -112,66 +118,126 @@
 					name: 'Loud Mouth Burrito',
 					username: 'Loudmouthfoods',
 					image: 'http://placekitten.com/21/20'
-				}]
+				}, {
+                    name: 'jQuery Plugin',
+					username: 'jqueryplugin',
+					image: '',
+                    delimiter: '#'
+                }, {
+                    name: 'Bootstrap Plugin',
+					username: 'bootstrapplugin',
+					image: '',
+                    delimiter: '#'
+                }, {
+                    name: 'Translation',
+					username: 'translation',
+					image: 'http://quitter.se/avatar/1105-48-20130804110730.png',
+                    delimiter: '!'
+                },{
+                    name: 'Humor',
+					username: 'humor',
+					image: 'http://quitter.se/avatar/1098-48-20130801101548.jpeg',
+                    delimiter: '!'
+                }]
 			});
 
 
 			$("#med").mention({
+				key: 'username',
+                name: 'name',
+                image: 'image',
+                delimiter: '@',
+                emptyQuery: true,
+                queryBy: ['name', 'username'],
 				users: [{
 					name: 'Lindsay Made',
-					username: 'LindsayM'
+					username: 'LindsayM',
 				}, {
 					name: 'Rob Dyrdek',
-					username: 'robdyrdek'
+					username: 'robdyrdek',
 				}, {
 					name: 'Rick Bahner',
-					username: 'RickyBahner'
+					username: 'RickyBahner',
 				}, {
 					name: 'Jacob Kelley',
-					username: 'jakiestfu'
+					username: 'jakiestfu',
 				}, {
 					name: 'John Doe',
-					username: 'HackMurphy'
+					username: 'HackMurphy',
 				}, {
 					name: 'Charlie Edmiston',
-					username: 'charlie'
+					username: 'charlie',
 				}, {
 					name: 'Andrea Montoya',
-					username: 'andream'
+					username: 'andream',
 				}, {
 					name: 'Jenna Talbert',
-					username: 'calisunshine'
+					username: 'calisunshine',
 				}, {
 					name: 'Street League',
-					username: 'streetleague'
+					username: 'streetleague',
 				}, {
 					name: 'Loud Mouth Burrito',
-					username: 'Loudmouthfoods'
-				}]
+					username: 'Loudmouthfoods',
+				}, {
+                    name: 'jQuery Plugin',
+					username: 'jqueryplugin',
+                    delimiter: '#'
+                }, {
+                    name: 'Bootstrap Plugin',
+					username: 'bootstrapplugin',
+                    delimiter: '#'
+                }, {
+                    name: 'Translation',
+					username: 'translation',
+                    delimiter: '!'
+                },{
+                    name: 'Humor',
+					username: 'humor',
+                    delimiter: '!'
+                }]
 			});
 
 			$("#light").mention({
+				key: 'username',
+                name: 'name',
+                image: 'image',
+                delimiter: '@',
+                emptyQuery: true,
+                queryBy: ['username'],
 				users: [{
-					username: 'LindsayM'
+					username: 'LindsayM',
 				}, {
-					username: 'robdyrdek'
+					username: 'robdyrdek',
 				}, {
-					username: 'RickyBahner'
+					username: 'RickyBahner',
 				}, {
-					username: 'jakiestfu'
+					username: 'jakiestfu',
 				}, {
-					username: 'HackMurphy'
+					username: 'HackMurphy',
 				}, {
-					username: 'charlie'
+					username: 'charlie',
 				}, {
-					username: 'andream'
+					username: 'andream',
 				}, {
-					username: 'calisunshine'
+					username: 'calisunshine',
 				}, {
-					username: 'streetleague'
+					username: 'streetleague',
 				}, {
-					username: 'Loudmouthfoods'
-				}]
+					username: 'Loudmouthfoods',
+				}, {
+					username: 'jqueryplugin',
+                    delimiter: '#'
+                }, {
+					username: 'bootstrapplugin',
+                    delimiter: '#'
+                }, {
+					username: 'translation',
+                    delimiter: '!'
+                },{
+					username: 'humor',
+                    delimiter: '!'
+                }]
 			});
 			
 		});
