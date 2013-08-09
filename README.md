@@ -1,6 +1,6 @@
 # Mention.js
 
-<img src="http://oi39.tinypic.com/6ia89s.jpg">
+<img src="http://i39.tinypic.com/315ir2c.png">
 
 Lightweight (min: ~1.92kb, full: ~4.07kb) wrapper for adding mention auto-completion functionality to Twitter Bootstraps Typeahead plugin.
 
@@ -170,6 +170,7 @@ $("#multi-users").mention({
 (The MIT license)
 
 Copyright (c) 2013 Jacob Kelley
+
 Copyright (c) 2013 Bijan Ebrahimi (overriding delimiter and optional key/name object variable name)
 
 Permission is hereby granted, free of charge, to any person obtaining
