@@ -24,6 +24,12 @@ $("#multi-users").mention({
         username: "roger"
     }, { 
         username: "frecklefart123"
+    }, {
+        username: "jquery",
+        delimiter: "#"
+    }, {
+        username: "plugin",
+        delimiter: "#"
     }]
 });
 `````
@@ -41,6 +47,12 @@ $("#multi-users").mention({
         username: "roger"
     }, { 
         username: "Ricky"
+    }, { 
+        username: "developer",
+        delimiter: "#"
+    }, { 
+        username: "developing",
+        delimiter: "#"
     }]
 });
 `````
@@ -107,6 +119,16 @@ $("#multi-users").mention({
         username: "coderDude",
         name: "Roger Penn",
         image: "http://placekitten.com/25/25"
+    },{ 
+        username: "developer",
+        name: "Developer",
+        image: "",
+        delimiter: "#"
+    }, { 
+        username: "developing",
+        name: "Developing",
+        image: "",
+        delimiter: "#"
     }]
 });
 `````
