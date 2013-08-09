@@ -1,12 +1,10 @@
 # Mention.js
 
-<img src="http://i.imgur.com/pCvqL.png">
+<img src="http://oi39.tinypic.com/6ia89s.jpg">
 
 Lightweight (min: ~1.92kb, full: ~4.07kb) wrapper for adding mention auto-completion functionality to Twitter Bootstraps Typeahead plugin.
 
-This enables you to have Twitter-like user mentions in textareas and more.
-
-<b>View the demo <a href="http://jakiestfu.github.com/Mention.js/" target="_blank">here</a>.</b>
+This enables you to have Twitter-like `@` user mentions, `#` hashtag in textareas and more.
 
 ## Dependencies
 * <a href="https://github.com/jquery/jquery" target="_blank">jQuery</a>
