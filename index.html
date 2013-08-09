@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title>Mention.js Test</title>
 
 	<link rel="stylesheet" type="text/css" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="http://jakiestfu.github.com/Mention.js/recommended-styles.css">
+	<link rel="stylesheet" type="text/css" href="../recommended-styles.css">
 	
 	<style type='text/css'>
 		body {
@@ -14,6 +14,7 @@
 			color: #252525;
 			text-shadow: 0 1px 0 white;
 			}
+
 		ul {
 			text-shadow:none;
 			}
@@ -48,13 +49,12 @@
 	</style>
 </head>
 <body>
-	<a href="https://github.com/jakiestfu/Mention.js/"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-	<p>Type in some text below as if you were sending a "tweet". Be sure to try to "mention" someone by typing the @ symbol, then some text</p>
+	<p>Type in some text below as if you were sending a "tweet" or a "notice". Be sure to try to "mention" someone by typing the @ symbol or "hashtag" something by # symbol or target a "group" by ! symbol (in statusnet micro-blogging service), then some text</p>
 
 	<hr />
 
 	<h3>Example #1: Name, Username, &amp; Image</h3>
-	<p>In this example, a full name, image, and username is shown in the resulting list. You can query by username OR full name (try typing @Jenna)</p>
+	<p>In this example, a full name, image, and username is shown in the resulting list. You can query by username OR full name (try typing @Jenna, #plugin or !humor)</p>
 	<textarea id="full"></textarea>
 
 	<h3>Example #2: Name, Username</h3>
@@ -67,11 +67,17 @@
 	
 	<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.js'></script>
 	<script type='text/javascript' src="http://twitter.github.com/bootstrap/assets/js/bootstrap-typeahead.js"></script>
-	<script type='text/javascript'>(function(e){e.fn.extend({mention:function(t){this.opts={users:[],delimiter:"@",sensitive:true,queryBy:["name","username"],typeaheadOpts:{}};var n=e.extend({},this.opts,t),r=function(){if(typeof e=="undefined"){throw new Error("jQuery is Required")}else{if(typeof e.fn.typeahead=="undefined"){throw new Error("Typeahead is Required")}}return true},i=function(e,t){var r;for(r=t;r>=0;r--){if(e[r]==n.delimiter){break}}return e.substring(r,t)},s=function(e){var t;for(t in n.queryBy){if(e[n.queryBy[t]]){var r=e[n.queryBy[t]].toLowerCase(),i=this.query.toLowerCase().match(new RegExp(n.delimiter+"\\w+","g")),s;if(!!i){for(s=0;s<i.length;s++){var o=i[s].substring(1).toLowerCase(),u=new RegExp(n.delimiter+r,"g"),a=this.query.toLowerCase().match(u);if(r.indexOf(o)!=-1&&a===null){return true}}}}}},o=function(e){var t=this.query,r=this.$element[0].selectionStart,i;for(i=r;i>=0;i--){if(t[i]==n.delimiter){break}}var s=t.substring(i,r),o=t.substring(0,i),u=t.substring(r),t=o+n.delimiter+e+u;this.tempQuery=t;return t},u=function(e){if(e.length&&n.sensitive){var t=i(this.query,this.$element[0].selectionStart).substring(1),r,s=e.length,o={highest:[],high:[],med:[],low:[]},u=[];if(t.length==1){for(r=0;r<s;r++){var a=e[r];if(a.username[0]==t){o.highest.push(a)}else if(a.username[0].toLowerCase()==t.toLowerCase()){o.high.push(a)}else if(a.username.indexOf(t)!=-1){o.med.push(a)}else{o.low.push(a)}}for(r in o){var f;for(f in o[r]){u.push(o[r][f])}}return u}}return e},a=function(t){var r=this;t=e(t).map(function(t,i){t=e(r.options.item).attr("data-value",i.username);var s=e("<div />");if(i.image){s.append('<img class="mention_image" src="'+i.image+'">')}if(i.name){s.append('<b class="mention_name">'+i.name+"</b>")}if(i.username){s.append('<span class="mention_username"> '+n.delimiter+i.username+"</span>")}t.find("a").html(r.highlighter(s.html()));return t[0]});t.first().addClass("active");this.$menu.html(t);return this};e.fn.typeahead.Constructor.prototype.render=a;return this.each(function(){var t=e(this);if(r()){t.typeahead(e.extend({source:n.users,matcher:s,updater:o,sorter:u},n.typeaheadOpts))}})}})})(jQuery)</script>
+	<script type='text/javascript'>(function(e){e.fn.extend({mention:function(t){this.opts={users:[],delimiter:"@",sensitive:true,emptyQuery:false,key:"username",name:"name",image:"image",queryBy:[],typeaheadOpts:{}};var n=e.extend({},this.opts,t),r=function(){if(typeof e=="undefined"){throw new Error("jQuery is Required")}else{if(typeof e.fn.typeahead=="undefined"){throw new Error("Typeahead is Required")}}return true},i=function(e,t){var r;for(r=t;r>=0;r--){if(e[r]==n.delimiter){break}}return e.substring(r,t)},s=function(e){var t;if(n.emptyQuery){var r=this.query.toLowerCase(),i=this.$element[0].selectionStart,s=r.slice(i-1,i),o=e["delimiter"]?e["delimiter"]:n.delimiter;if(s==o){if(!r.match(new RegExp(o+e[n.key],"g")))return true}}if(!n.queryBy.length)n.queryBy=[n.key];for(t in n.queryBy){if(e[n.queryBy[t]]){var u=e[n.queryBy[t]].toLowerCase(),a=this.query.toLowerCase().match(new RegExp((e["delimiter"]?e["delimiter"]:n.delimiter)+"\\w+","g")),f;if(!!a){for(f=0;f<a.length;f++){var l=a[f].substring(1).toLowerCase(),c=new RegExp((e["delimiter"]?e["delimiter"]:n.delimiter)+u,"g"),h=this.query.toLowerCase().match(c);if(u.indexOf(l)!=-1&&h===null){return true}}}}}},o=function(e,t){var n=this.query,r=this.$element[0].selectionStart,i;for(i=r;i>=0;i--){if(n[i]==t){break}}var s=n.substring(i,r),o=n.substring(0,i),u=n.substring(r),n=o+t+e+u;this.tempQuery=n;return n},u=function(e){if(e.length&&n.sensitive){var t=i(this.query,this.$element[0].selectionStart).substring(1),r,s=e.length,o={highest:[],high:[],med:[],low:[]},u=[];if(t.length==1){for(r=0;r<s;r++){var a=e[r];if(a[n.key][0]==t){o.highest.push(a)}else if(a[n.key][0].toLowerCase()==t.toLowerCase()){o.high.push(a)}else if(a[n.key].indexOf(t)!=-1){o.med.push(a)}else{o.low.push(a)}}for(r in o){var f;for(f in o[r]){u.push(o[r][f])}}return u}}return e},a=function(t){var r=this;t=e(t).map(function(t,i){t=e(r.options.item).attr("data-value",i[n.key]);var s=e("<div />");if(i[n.image]){s.append('<img class="mention_image" src="'+i[n.image]+'">')}if(i[n.name]){s.append('<b class="mention_name">'+i[n.name]+"</b>")}if(i[n.key]){s.append('<span class="mention_username"> '+(i["delimiter"]?i["delimiter"]:n.delimiter)+i[n.key]+"</span>")}t.find("a").attr("data-delimiter",i["delimiter"]?i["delimiter"]:n.delimiter).html(r.highlighter(s.html()));return t[0]});t.first().addClass("active");this.$menu.html(t);return this};e.fn.typeahead.Constructor.prototype.render=a;e.fn.typeahead.Constructor.prototype.select=function(){var e=this.$menu.find(".active").attr("data-value"),t=this.$menu.find(".active").find("a").attr("data-delimiter");this.$element.val(this.updater(e,t)).change();return this.hide()};e.fn.typeahead.Constructor.prototype.updater=function(e,t){return e};return this.each(function(){var t=e(this);if(r()){t.typeahead(e.extend({source:n.users,matcher:s,updater:o,sorter:u},n.typeaheadOpts))}})}})})(jQuery)</script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			
 			$("#full").mention({
+                key: 'username',
+                name: 'name',
+                image: 'image',
+                delimiter: '@',
+                emptyQuery: true,
+                queryBy: ['name', 'username'],
 				users: [{
 					name: 'Lindsay Made',
 					username: 'LindsayM',
@@ -112,66 +118,126 @@
 					name: 'Loud Mouth Burrito',
 					username: 'Loudmouthfoods',
 					image: 'http://placekitten.com/21/20'
-				}]
+				}, {
+                    name: 'jQuery Plugin',
+					username: 'jqueryplugin',
+					image: '',
+                    delimiter: '#'
+                }, {
+                    name: 'Bootstrap Plugin',
+					username: 'bootstrapplugin',
+					image: '',
+                    delimiter: '#'
+                }, {
+                    name: 'Translation',
+					username: 'translation',
+					image: 'http://quitter.se/avatar/1105-48-20130804110730.png',
+                    delimiter: '!'
+                },{
+                    name: 'Humor',
+					username: 'humor',
+					image: 'http://quitter.se/avatar/1098-48-20130801101548.jpeg',
+                    delimiter: '!'
+                }]
 			});
 
 
 			$("#med").mention({
+				key: 'username',
+                name: 'name',
+                image: 'image',
+                delimiter: '@',
+                emptyQuery: true,
+                queryBy: ['name', 'username'],
 				users: [{
 					name: 'Lindsay Made',
-					username: 'LindsayM'
+					username: 'LindsayM',
 				}, {
 					name: 'Rob Dyrdek',
-					username: 'robdyrdek'
+					username: 'robdyrdek',
 				}, {
 					name: 'Rick Bahner',
-					username: 'RickyBahner'
+					username: 'RickyBahner',
 				}, {
 					name: 'Jacob Kelley',
-					username: 'jakiestfu'
+					username: 'jakiestfu',
 				}, {
 					name: 'John Doe',
-					username: 'HackMurphy'
+					username: 'HackMurphy',
 				}, {
 					name: 'Charlie Edmiston',
-					username: 'charlie'
+					username: 'charlie',
 				}, {
 					name: 'Andrea Montoya',
-					username: 'andream'
+					username: 'andream',
 				}, {
 					name: 'Jenna Talbert',
-					username: 'calisunshine'
+					username: 'calisunshine',
 				}, {
 					name: 'Street League',
-					username: 'streetleague'
+					username: 'streetleague',
 				}, {
 					name: 'Loud Mouth Burrito',
-					username: 'Loudmouthfoods'
-				}]
+					username: 'Loudmouthfoods',
+				}, {
+                    name: 'jQuery Plugin',
+					username: 'jqueryplugin',
+                    delimiter: '#'
+                }, {
+                    name: 'Bootstrap Plugin',
+					username: 'bootstrapplugin',
+                    delimiter: '#'
+                }, {
+                    name: 'Translation',
+					username: 'translation',
+                    delimiter: '!'
+                },{
+                    name: 'Humor',
+					username: 'humor',
+                    delimiter: '!'
+                }]
 			});
 
 			$("#light").mention({
+				key: 'username',
+                name: 'name',
+                image: 'image',
+                delimiter: '@',
+                emptyQuery: true,
+                queryBy: ['username'],
 				users: [{
-					username: 'LindsayM'
+					username: 'LindsayM',
 				}, {
-					username: 'robdyrdek'
+					username: 'robdyrdek',
 				}, {
-					username: 'RickyBahner'
+					username: 'RickyBahner',
 				}, {
-					username: 'jakiestfu'
+					username: 'jakiestfu',
 				}, {
-					username: 'HackMurphy'
+					username: 'HackMurphy',
 				}, {
-					username: 'charlie'
+					username: 'charlie',
 				}, {
-					username: 'andream'
+					username: 'andream',
 				}, {
-					username: 'calisunshine'
+					username: 'calisunshine',
 				}, {
-					username: 'streetleague'
+					username: 'streetleague',
 				}, {
-					username: 'Loudmouthfoods'
-				}]
+					username: 'Loudmouthfoods',
+				}, {
+					username: 'jqueryplugin',
+                    delimiter: '#'
+                }, {
+					username: 'bootstrapplugin',
+                    delimiter: '#'
+                }, {
+					username: 'translation',
+                    delimiter: '!'
+                },{
+					username: 'humor',
+                    delimiter: '!'
+                }]
 			});
 			
 		});
