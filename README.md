@@ -4,19 +4,24 @@
 
 Lightweight (min: ~1.92kb, full: ~4.07kb) wrapper for adding mention auto-completion functionality to Twitter Bootstraps Typeahead plugin.
 
-This enables you to have Twitter-like `@` user mentions, `#` hashtag in textareas and more.
+This enables you to have Twitter-like `@` user mentions, `#` hashtag or any related fucntionality in textarea.
 
 <b>View the demo <a href="http://bijanebrahimi.github.io/Mention.js/" target="_blank">here</a>.</b>
+
+# Version
+0.1.0
 
 ## Dependencies
 * <a href="https://github.com/jquery/jquery" target="_blank">jQuery</a>
 * <a href="https://github.com/twitter/bootstrap" target="_blank">Typeahead</a>
 
-## Usage
-The `users` parameter accepts an array of objects. **key** value should be defined which is equal to object variable we want to mention.
+## Simple Usage
+The `users` parameter accepts an array of objects. **key** value should be
+defined which is equal to object variable we want to mention, in this case `username`.
 
 `````javascript
 $("#multi-users").mention({
+    key: 'username',
     delimiter: '@',
     users: [{
         username: "ashley"
@@ -34,59 +39,55 @@ $("#multi-users").mention({
 });
 `````
 
-## Sensitivity
-`````javascript
-$("#multi-users").mention({
-    key: 'username',
-    sensitive: true,
-    users: [{
-        username: "sarah"
-    }, { 
-        username: "bigRat"
-    }, { 
-        username: "roger"
-    }, { 
-        username: "Ricky"
-    }, { 
-        username: "developer",
-        delimiter: "#"
-    }, { 
-        username: "developing",
-        delimiter: "#"
-    }]
-});
-`````
+## List of available Options
+
+Option | Optional | Description | default 
+:-----------|:------------|:------------|:------------
+ delimiter  | yes | the character to trigger mention list to pops up | `'@'`
+ delimiters | yes | string list of all defined delimiters, without any space | generats from list if not defined
+ name | yes | the object value in user's list representing the name | `'name'`
+ key | yes | the object value in user's list representing the key | `'username'`
+ image | yes | the object value in user's list representing the avatar image
+ users | no | array containing user's objects | 
+ sensitive | yes | reorder the mention list by the best candidate to lowest | `true`
+ emptyQuery | yes | if set true, show mention list by typing delimiter character | `false`
+ queryBy | yes | array of object's value to search in | value of `key` option
+ typeaheadOpts | yes | extra options for Twitter Bootstrap typeahead plugin | `{}`
+
+
+## Options
+
+### Sensitivity
+
 With sensitivity set to true, items are ordered by the following divisions of priority:
+
 * Highest: If first letter matches exactly
 * High: If first letter matches regardless of case
 * Med: If target has matching letters' case
 * Low: if target has matching character regardless of case
 
 ### Overriding the delimiter:
-You can override the delimitter for each item by defining `delimiter` object value. for instance to have *developer* and *developing* hashtag we can simple define extra delimiter value in each of them and set them to '#':
+
+You can override the delimitter for each array objects by defining `delimiter`
+object value. for instance to have *developer* and *developing* hashtag we can
+simple define extra delimiter value in each of them and set them to '#':
 
 `````javascript
 $("#multi-users").mention({
-    name: 'name',
-    key: 'username',
-    queryBy: ['name', 'username'],
+    delimiter: '@',
     users: [{
-        username: "sarah",
-        name: "Sarah Jones",
-        image: "http://placekitten.com/25/25"
+        username: "bob",
+        name: "Bob Smith",
     }, { 
-        username: "bigCat",
-        name: "Scott Pfaff",
-        image: "http://placekitten.com/25/25"
+        username: "alice",
+        name: "Alice Smith",
     }, { 
         username: "developer",
         name: "Developer",
-        image: "",
         delimiter: "#"
     }, { 
         username: "developing",
         name: "Developing",
-        image: "",
         delimiter: "#"
     }]
 });
@@ -94,47 +95,43 @@ $("#multi-users").mention({
 
 
 ### Sensitivity Examples:
-If you were to query `"@r"`, with sensitivity on, the resulting list will be `["roger", "Ricky", "sarah", "bigRat"]`, but if you were to query `"@R"`, the resulting list would be `["Ricky", "roger", "bigRat", "sarah"]`
+If you were to query `"@r"`, with sensitivity on, the resulting list will be
+`["roger", "Ricky", "sarah", "bigRat"]`, but if you were to query `"@R"`, the
+resulting list would be `["Ricky", "roger", "bigRat", "sarah"]`
 
 
-## Full Names, Images, and Query By
-If you have `name` and/or `image` in one of your user objects, there name and image will appear as such in the dropdown list.
-
-The `queryBy` parameter accepts an array of strings that represent keys in your user object that you would like to query against. For example, if you were to type in the `name` "@Scott", the script would match the `username` "@bigCat". `username` is required for this script to work.
+## Name, Username and Image Object's value
+Object values of `name`, `username` and `image` in user's list will be shown
+in mention list menu if defined. Username value is the one by selecting an
+item, will be put into your textbox/input. username is required for this
+script to work. each of these object values can be change to something else
+by setting `key`, `name` or `image` option. 
 
 `````javascript
 $("#multi-users").mention({
-    name: 'name',
-    key: 'username',
-    queryBy: ['name', 'username'],
+    image: 'avatar',
     users: [{
-        username: "sarah",
-        name: "Sarah Jones",
-        image: "http://placekitten.com/25/25"
+        username: "bob",
+        name: "Bob Smith",
+        avatar: "http://placekitten.com/25/25"
     }, { 
-        username: "bigCat",
-        name: "Scott Pfaff",
-        image: "http://placekitten.com/25/25"
-    }, { 
-        username: "coderDude",
-        name: "Roger Penn",
-        image: "http://placekitten.com/25/25"
-    },{ 
-        username: "developer",
-        name: "Developer",
-        image: "",
-        delimiter: "#"
-    }, { 
-        username: "developing",
-        name: "Developing",
-        image: "",
-        delimiter: "#"
+        username: "alice",
+        name: "Alice Smith",
+        avatar: "http://placekitten.com/25/25"
     }]
 });
 `````
 
+## Query
+The `queryBy` parameter accepts an array of strings that represent keys in your
+user object that you would like to query against. For example, if you were to
+type in the `name` "@bob", the script would match the `username` "@bigCat". the
+default value is equal to the value of `key` option.
+
 ## Empty Querying
-You may query for users simply by pressing your delimiter. For example, pressing the @ symbol will return all users that are a part of your users list, so long as those users adhere to the `typeaheadOpts.items` limit
+You may query for users simply by pressing your delimiter. For example, pressing
+the @ symbol will return all users that are a part of your users list, so long
+as those users adhere to the `typeaheadOpts.items` limit
 ```javascript
 $('#multi-users').mention({
     emptyQuery: true,
@@ -154,8 +151,9 @@ $("#multi-users").mention({
     image: 'image',
     users: [], // Array of Objects
     delimiter: '@', // Username Delimiter
+    delimiters: '', // Will be filled from user list delimiters
     sensitive : true,
-    queryBy: ['name', 'username'],
+    queryBy: ['username'],
     typeaheadOpts: { // Settings for Typeahead
         matcher: _matcher, // Mention.js's custom matcher function, don't change
         updater: _updater, // Mention.js's custom updater function, don't change
@@ -171,7 +169,13 @@ $("#multi-users").mention({
 
 Copyright (c) 2013 Jacob Kelley
 
-Copyright (c) 2013 Bijan Ebrahimi (overriding delimiter and optional key/name object variable name)
+Copyright (c) 2013 Bijan Ebrahimi 
+    overriding delimiter
+    optional key/name/image object variable name 
+    removed already mentions objects from emptyQuery result
+    fixed unclosed mention menu bug
+    enhanced query results
+    added versioning
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
