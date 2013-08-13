@@ -170,12 +170,13 @@ $("#multi-users").mention({
 Copyright (c) 2013 Jacob Kelley
 
 Copyright (c) 2013 Bijan Ebrahimi 
-    overriding delimiter
-    optional key/name/image object variable name 
-    removed already mentions objects from emptyQuery result
-    fixed unclosed mention menu bug
-    enhanced query results
-    added versioning
+
+* added overriding delimiter
+* added optional key/name/image object variable name 
+* removed already mentions objects from emptyQuery result
+* fixed unclosed mention menu bug
+* enhanced query results
+* added versioning
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
