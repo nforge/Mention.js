@@ -4,8 +4,8 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title>Mention.js Test</title>
 
-	<link rel="stylesheet" type="text/css" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="../recommended-styles.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="recommended-styles.css">
 	
 	<style type='text/css'>
 		body {
@@ -67,7 +67,209 @@
 	
 	<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.js'></script>
 	<script type='text/javascript' src="http://twitter.github.com/bootstrap/assets/js/bootstrap-typeahead.js"></script>
-	<script type='text/javascript'>(function(e){e.fn.extend({mention:function(t){this.opts={users:[],delimiter:"@",delimiters:"",sensitive:true,emptyQuery:false,key:"username",name:"name",image:"image",queryBy:[],typeaheadOpts:{}};var n=e.extend({},this.opts,t),r=function(){if(typeof e=="undefined"){throw new Error("jQuery is Required")}else{if(typeof e.fn.typeahead=="undefined"){throw new Error("Typeahead is Required")}}return true},i=function(e,t){for(var r=t;r>=0;r--){if(e[r]==n.delimiter){break}}return e.substring(r,t)},s=function(e){if(n.queryBy.length==0)n.queryBy=[n.key];var t=e["delimiter"]?e["delimiter"]:n.delimiter,r=e[n.key].toLowerCase(),i=this.query.toLowerCase(),s=this.$element[0].selectionStart,o=i.slice(s-1,s);var u=(i.toLowerCase().match(new RegExp(t+"\\w+","g"))||[]).map(function(e){return e.toLowerCase()});var i=(i.substring(0,s).match(new RegExp("([^ "+n.delimiters+"]+)$"))||[""])[0];if(n.emptyQuery){if(o==t){if(u.indexOf(t+r)==-1)return true}}if(i=="")return false;for(var a in n.queryBy){if(e[n.queryBy[a]]){var f=e[n.queryBy[a]].toLowerCase();if(i.trim().toLowerCase().substring(1)==e[n.key].toLowerCase())return false;for(var l=0;l<u.length;l++){var c=u[l].substring(1).toLowerCase(),h=new RegExp(t+f,"g"),p=i.toLowerCase().match(h);if(f.indexOf(c)!=-1&&p===null&&u.indexOf(t+e[n.key].toLowerCase())==-1){return true}}}}},o=function(e,t){var n=this.query,r=this.$element[0].selectionStart,i;for(i=r;i>=0;i--){if(n[i]==t){break}}var s=n.substring(i,r),o=n.substring(0,i),u=n.substring(r),n=o+t+e+u;this.tempQuery=n;return n},u=function(e){if(e.length&&n.sensitive){var t=i(this.query,this.$element[0].selectionStart).substring(1),r,s=e.length,o={highest:[],high:[],med:[],low:[]},u=[];if(t.length==1){for(r=0;r<s;r++){var a=e[r];if(a[n.key][0]==t){o.highest.push(a)}else if(a[n.key][0].toLowerCase()==t.toLowerCase()){o.high.push(a)}else if(a[n.key].indexOf(t)!=-1){o.med.push(a)}else{o.low.push(a)}}for(r in o){var f;for(f in o[r]){u.push(o[r][f])}}return u}}return e},a=function(t){var r=this;t=e(t).map(function(t,i){t=e(r.options.item).attr("data-value",i[n.key]);var s=e("<div />");if(i[n.image]){s.append('<img class="mention_image" src="'+i[n.image]+'">')}if(i[n.name]){s.append('<b class="mention_name">'+i[n.name]+"</b>")}if(i[n.key]){s.append('<span class="mention_username"> '+(i["delimiter"]?i["delimiter"]:n.delimiter)+i[n.key]+"</span>")}t.find("a").attr("data-delimiter",i["delimiter"]?i["delimiter"]:n.delimiter).html(r.highlighter(s.html()));return t[0]});t.first().addClass("active");this.$menu.html(t);return this};if(n.delimiters.length==0){n.delimiters=n.delimiter;for(var f=0;f<n.users.length;f++){if(n.users[f].delimiter)if(n.delimiters.indexOf(n.users[f].delimiter)==-1)n.delimiters+=n.users[f].delimiter}}e.fn.typeahead.Constructor.prototype.render=a;e.fn.typeahead.Constructor.prototype.select=function(){var e=this.$menu.find(".active").attr("data-value"),t=this.$menu.find(".active").find("a").attr("data-delimiter");this.$element.val(this.updater(e,t)).change();return this.hide()};e.fn.typeahead.Constructor.prototype.updater=function(e,t){return e};return this.each(function(){var t=e(this);if(r()){t.typeahead(e.extend({source:n.users,matcher:s,updater:o,sorter:u},n.typeaheadOpts))}})}})})(jQuery)</script>
+	<script type='text/javascript'>
+        ;(function($) {
+            $.fn.extend({
+                mention: function(options) {
+                    this.opts = {
+                        users: [],
+                        delimiter: '@',
+                        delimiters: '',
+                        sensitive: true,
+                        emptyQuery: false,
+                        key: 'username',
+                        name: 'name',
+                        image: 'image',
+                        queryBy: [],
+                        typeaheadOpts: {}
+                    };
+
+                    var settings = $.extend({}, this.opts, options),
+                        _checkDependencies = function() {
+                            if (typeof $ == 'undefined') {
+                                throw new Error("jQuery is Required");
+                            }
+                            else {
+                                if (typeof $.fn.typeahead == 'undefined') {
+                                    throw new Error("Typeahead is Required");
+                                }
+                            }
+                            return true;
+                        },
+                        _extractCurrentQuery = function(query, caratPos) {
+                            for (var i = caratPos; i >= 0; i--) {
+                                if (query[i] == settings.delimiter) {
+                                    break;
+                                }
+                            }
+                            return query.substring(i, caratPos);
+                        },
+                        _matcher = function(itemProps) {
+                            // default value for queryBy is [settings.key], 
+                            if(settings.queryBy.length == 0)
+                                settings.queryBy = [settings.key]
+                            
+                            // local variable
+                            var current_delimiter = (itemProps['delimiter'] ? itemProps['delimiter'] : settings.delimiter),
+                                itemKey = itemProps[settings.key].toLowerCase(),
+                                q = (this.query.toLowerCase()),
+                                caratPos = this.$element[0].selectionStart,
+                                lastChar = q.slice(caratPos-1,caratPos);
+                            
+                            // list all the usernames already in text (in lower case)
+                            var usernames = (q.toLowerCase().match(new RegExp(current_delimiter + '\\w+', "g"))||[]).map(function(b){ return b.toLowerCase(); })
+
+                            // query only the word between cursor and the first space/delimiter behind it
+                            var q = (q.substring(0, caratPos).match(new RegExp('([^ '+settings.delimiters+']+)$')) || [''])[0]
+                            
+                            // in emptyQuery, try to list all but those already selected
+                            if(settings.emptyQuery){
+                                if(lastChar==current_delimiter){
+                                    if (usernames.indexOf(current_delimiter+itemKey)==-1)
+                                        return true
+                                }
+                            }
+                            
+                            // at this moment, don't bother to search empty query
+                            if(q == '') return false
+                            
+                            // list possible answers
+                            for (var i in settings.queryBy) {
+                                if (itemProps[settings.queryBy[i]]) {
+                                    var item = itemProps[settings.queryBy[i]].toLowerCase()
+                                    if(q.trim().toLowerCase().substring(1)==itemProps[settings.key].toLowerCase())
+                                        return false
+                                    for (var j = 0; j < usernames.length; j++) {
+                                        var username = (usernames[j].substring(1)).toLowerCase(),
+                                            re = new RegExp(current_delimiter + item, "g"),
+                                            used = ((q.toLowerCase()).match(re));
+                                        if (item.indexOf(username) != -1 && used === null && usernames.indexOf(current_delimiter+itemProps[settings.key].toLowerCase()) == -1) {
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        _updater = function(item, delimiter) {
+                            var data = this.query,
+                                caratPos = this.$element[0].selectionStart,
+                                i;
+                            
+                            for (i = caratPos; i >= 0; i--) {
+                                if (data[i] == delimiter) {
+                                    break;
+                                }
+                            }
+                            var replace = data.substring(i, caratPos),
+                                textBefore = data.substring(0, i),
+                                textAfter = data.substring(caratPos),
+                                data = textBefore + delimiter + item + textAfter;
+                                
+                            this.tempQuery = data;
+
+                            return data;
+                        },
+                        _sorter = function(items) {
+                            if (items.length && settings.sensitive) {
+                                var currentUser = _extractCurrentQuery(this.query, this.$element[0].selectionStart).substring(1),
+                                    i, len = items.length,
+                                    priorities = {
+                                        highest: [],
+                                        high: [],
+                                        med: [],
+                                        low: []
+                                    }, finals = [];
+                                if (currentUser.length == 1) {
+                                    for (i = 0; i < len; i++) {
+                                        var currentRes = items[i];
+
+                                        if ((currentRes[settings.key][0] == currentUser)) {
+                                            priorities.highest.push(currentRes);
+                                        }
+                                        else if ((currentRes[settings.key][0].toLowerCase() == currentUser.toLowerCase())) {
+                                            priorities.high.push(currentRes);
+                                        }
+                                        else if (currentRes[settings.key].indexOf(currentUser) != -1) {
+                                            priorities.med.push(currentRes);
+                                        }
+                                        else {
+                                            priorities.low.push(currentRes);
+                                        }
+                                    }
+                                    for (i in priorities) {
+                                        var j;
+                                        for (j in priorities[i]) {
+                                            finals.push(priorities[i][j]);
+                                        }
+                                    }
+                                    return finals;
+                                }
+                            }
+                            return items;
+                        },
+                        _render = function(items) {
+                            var that = this;
+                            items = $(items).map(function(i, item) {
+
+                                i = $(that.options.item).attr('data-value', item[settings.key]);
+
+                                var _linkHtml = $('<div />');
+
+                                if (item[settings.image]) {
+                                    _linkHtml.append('<img class="mention_image" src="' + item[settings.image] + '">');
+                                }
+                                if (item[settings.name]) {
+                                    _linkHtml.append('<b class="mention_name">' + item[settings.name] + '</b>');
+                                }
+                                if (item[settings.key]) {
+                                    _linkHtml.append('<span class="mention_username"> ' + (item['delimiter'] ? item['delimiter'] : settings.delimiter) + item[settings.key] + '</span>');
+                                }
+                                i.find('a').attr('data-delimiter', (item['delimiter'] ? item['delimiter'] : settings.delimiter)).html(that.highlighter(_linkHtml.html()));
+                                return i[0];
+                            });
+                            items.first().addClass('active');
+                            this.$menu.html(items);
+                            return this;
+                        };
+
+                    // fill settings.delimiters if empty
+                    if(settings.delimiters.length==0){
+                        settings.delimiters = settings.delimiter
+                        for(var i=0; i<settings.users.length; i++){
+                            if(settings.users[i].delimiter)
+                                if(settings.delimiters.indexOf(settings.users[i].delimiter)==-1)
+                                    settings.delimiters += settings.users[i].delimiter
+                        }
+                    }
+
+                    $.fn.typeahead.Constructor.prototype.render = _render;
+                    $.fn.typeahead.Constructor.prototype.select = function () {
+                        var val = this.$menu.find('.active').attr('data-value'),
+                        delimiter = this.$menu.find('.active').find('a').attr('data-delimiter')
+                        this.$element
+                            .val(this.updater(val, delimiter))
+                            .change()
+                        return this.hide()
+                    }
+                    $.fn.typeahead.Constructor.prototype.updater = function (item, delimiter) {
+                        return item
+                    }
+
+                    return this.each(function() {
+                        var _this = $(this);
+                        if (_checkDependencies()) {
+                            _this.typeahead($.extend({
+                                source: settings.users,
+                                matcher: _matcher,
+                                updater: _updater,
+                                sorter: _sorter
+                            }, settings.typeaheadOpts));
+                        }
+                    });
+                }
+            });
+        })(jQuery);
+    </script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			
