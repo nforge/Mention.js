@@ -156,7 +156,7 @@ $("#multi-users").mention({
     sensitive : true,
     queryBy: ['username'],
     suffix : ' ',
-    userSuffix : true,
+    useSuffix : true,
     typeaheadOpts: { // Settings for Typeahead
         matcher: _matcher, // Mention.js's custom matcher function, don't change
         updater: _updater, // Mention.js's custom updater function, don't change
