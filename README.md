@@ -53,7 +53,8 @@ Option | Optional | Description | default
  emptyQuery | yes | if set true, show mention list by typing delimiter character | `false`
  queryBy | yes | array of object's value to search in | value of `key` option
  typeaheadOpts | yes | extra options for Twitter Bootstrap typeahead plugin | `{}`
-
+ suffix	| yes | the charcter to suffix of return text | ` `
+ useSuffix | yes | enable suffix for return text | 
 
 ## Options
 
@@ -154,6 +155,8 @@ $("#multi-users").mention({
     delimiters: '', // Will be filled from user list delimiters
     sensitive : true,
     queryBy: ['username'],
+    suffix : ' ',
+    userSuffix : true,
     typeaheadOpts: { // Settings for Typeahead
         matcher: _matcher, // Mention.js's custom matcher function, don't change
         updater: _updater, // Mention.js's custom updater function, don't change
