@@ -54,7 +54,7 @@ Option | Optional | Description | default
  queryBy | yes | array of object's value to search in | value of `key` option
  typeaheadOpts | yes | extra options for Twitter Bootstrap typeahead plugin | `{}`
  suffix	| yes | the charcter to suffix of return text | ` `
- useSuffix | yes | enable suffix for return text | 
+ useSuffix | yes | enable suffix for return text | `true`
 
 ## Options
 
